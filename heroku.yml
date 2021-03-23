@@ -1,8 +1,4 @@
-# https://devcenter.heroku.com/articles/heroku-yml-build-manifest
-# Officially unsupported, but works.
+# heroku.yml
 build:
-  languages:
-    - go
-
-run:
-  web: whats_api
+  docker:
+    web: Dockerfile
