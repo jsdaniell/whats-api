@@ -21,7 +21,7 @@ func ExecuteSh(file, projectName string) {
 	fmt.Printf("output: %s", res.Stderr)
 }
 
-func ExecuteShellCommand(command string, args ...string) {
+func ExecuteShellCommand(command string, args ...string)  error {
 	cmd := execute.ExecTask{
 		Command: command,
 		Args:    args,
@@ -31,11 +31,11 @@ func ExecuteShellCommand(command string, args ...string) {
 
 	res, err := cmd.Execute()
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	fmt.Printf("output: %s", res.Stdout)
 	fmt.Printf("output: %s", res.Stderr)
 
-	//return res.Stdout
+	return nil
 }

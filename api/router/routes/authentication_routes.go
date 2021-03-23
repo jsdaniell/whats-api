@@ -12,4 +12,10 @@ var authenticationRoutes = []Route{
 		Handler: controllers.Connect,
 		Open:    true,
 	},
+	{
+		URI:     "/disconnect",
+		Method:  http.MethodGet,
+		Handler: controllers.Disconnect,
+		Open:    true,
+	},
 }
