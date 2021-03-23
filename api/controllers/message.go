@@ -26,7 +26,7 @@ func Message(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cmd := exec.Command("npx", "whats-cli", "send", messageBody.Number, messageBody.Message)
+	cmd := exec.Command( "./whats-cli", "send", messageBody.Number, messageBody.Message)
 
 	stdout, _ := cmd.StdoutPipe()
 	cmd.Start()

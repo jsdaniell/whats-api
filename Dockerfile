@@ -2,7 +2,7 @@
 FROM golang:stretch as build
 COPY . /src
 WORKDIR /src
-RUN CGO_ENABLED=0 go build -mod=vendor -o /whats-api .
+RUN CGO_ENABLED=0 GOOS=linux go build -mod=vendor -o /whats-api .
 
 ### Put the binary onto Heroku image
 FROM heroku/heroku:18

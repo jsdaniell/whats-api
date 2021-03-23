@@ -6,16 +6,20 @@ import (
 	"github.com/jsdaniell/whats_api/api/utils/shell_commands"
 	"github.com/skip2/go-qrcode"
 	"net/http"
-	"os"
 	"os/exec"
 )
 
 func Connect(w http.ResponseWriter, r *http.Request) {
+
 	// create new WhatsApp connection
-	cmd := exec.Command("npx", "whats-cli", "connect")
+	cmd := exec.Command("./whats-cli", "connect")
 
 	stdout, _ := cmd.StdoutPipe()
-	cmd.Start()
+	err := cmd.Start()
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+	}
+
 	scanner := bufio.NewScanner(stdout)
 	for scanner.Scan() {
 		m := scanner.Text()
@@ -33,7 +37,14 @@ func Connect(w http.ResponseWriter, r *http.Request) {
 
 func Disconnect(w http.ResponseWriter, r *http.Request) {
 	// create new WhatsApp connection
-	err := shell_commands.ExecuteShellCommand("rm", "-rf", os.TempDir())
+	err := shell_commands.ExecuteShellCommand("./whats-cli", "version")
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+		return
+	}
+
+
+	err = shell_commands.ExecuteShellCommand("./whats-cli", "disconnect")
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
 		return
