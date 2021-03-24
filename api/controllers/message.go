@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
 	"github.com/jsdaniell/whats_api/api/models"
 	"github.com/jsdaniell/whats_api/api/responses"
 	"io/ioutil"
@@ -12,6 +13,8 @@ import (
 )
 
 func Message(w http.ResponseWriter, r *http.Request) {
+	sessionID := mux.Vars(r)["sessionID"]
+
 	var messageBody models.MessageModel
 
 	bytes, err := ioutil.ReadAll(r.Body)
@@ -26,7 +29,7 @@ func Message(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cmd := exec.Command( "./whats-cli", "send", messageBody.Number, messageBody.Message)
+	cmd := exec.Command( "./whats-cli", "send", messageBody.Number, messageBody.Message, sessionID)
 
 	stdout, _ := cmd.StdoutPipe()
 	cmd.Start()

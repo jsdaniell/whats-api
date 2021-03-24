@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"bufio"
+	"github.com/gorilla/mux"
 	"github.com/jsdaniell/whats_api/api/responses"
 	"github.com/jsdaniell/whats_api/api/utils/shell_commands"
 	"github.com/skip2/go-qrcode"
@@ -11,8 +12,10 @@ import (
 
 func Connect(w http.ResponseWriter, r *http.Request) {
 
+	sessionID := mux.Vars(r)["sessionID"]
+
 	// create new WhatsApp connection
-	cmd := exec.Command("./whats-cli", "connect")
+	cmd := exec.Command("./whats-cli", "connect", sessionID)
 
 	stdout, _ := cmd.StdoutPipe()
 	err := cmd.Start()
@@ -36,6 +39,9 @@ func Connect(w http.ResponseWriter, r *http.Request) {
 }
 
 func Disconnect(w http.ResponseWriter, r *http.Request) {
+
+	sessionID := mux.Vars(r)["sessionID"]
+
 	// create new WhatsApp connection
 	err := shell_commands.ExecuteShellCommand("./whats-cli", "version")
 	if err != nil {
@@ -44,7 +50,7 @@ func Disconnect(w http.ResponseWriter, r *http.Request) {
 	}
 
 
-	err = shell_commands.ExecuteShellCommand("./whats-cli", "disconnect")
+	err = shell_commands.ExecuteShellCommand("./whats-cli", "disconnect", sessionID)
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
 		return

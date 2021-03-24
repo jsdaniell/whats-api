@@ -1,21 +1,21 @@
-#name: Heroku CI - CD
-#
-#on:
-#  push:
-#    branches: [ master ]
-#
-#jobs:
-#  deploy:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@master
-#      - uses: actions/setup-go@v1
-#        with:
-#          go-version: '1.14.6'
-#      - run: go mod vendor
-#      - run: git config --global user.email "jose.daniell@outlook.com" && git config --global user.name "jsdaniell"
-#      - uses: akhileshns/heroku-deploy@v3.4.6
-#        with:
-#          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-#          heroku_app_name: "whats-api-cli"
-#          heroku_email: "jose.daniell@outlook.com"
+name: Deploy container to heroku.
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build, Push and Release a Docker container to Heroku.
+        uses: gonuit/heroku-docker-deploy@v1.3.2
+        with:
+          email: jose.daniell@outlook.com
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: whats-api-cli
+          dockerfile_directory: ./
+          dockerfile_name: Dockerfile
+          process_type: web

@@ -1,5 +1,7 @@
 go mod vendor
+echo "Type the commit message: "
+read -r commitMessage
 git add .
-git commit -a -m "Updated heroku"
-git push heroku master
-cd ../
+git commit -am "${commitMessage}"
+heroku container:push -a whats-api-cli web
+heroku container:release -a whats-api-cli web

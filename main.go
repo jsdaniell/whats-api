@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	err := file_utility.DownloadFile("whats-cli.tar.gz", "https://github.com/jsdaniell/whats-cli/releases/download/v1.1.4/whats-cli_1.1.4_linux_amd64.tar.gz")
+	err := file_utility.DownloadFile("whats-cli.tar.gz", "https://github.com/jsdaniell/whats-cli/releases/download/v1.1.6/whats-cli_1.1.6_linux_amd64.tar.gz")
 	if err != nil {
 		fmt.Println(err)
 	}
