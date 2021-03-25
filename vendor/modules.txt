@@ -16,7 +16,6 @@ github.com/alexellis/go-execute/pkg/v1
 github.com/gorilla/mux
 # github.com/joho/godotenv v1.3.0
 ## explicit
-github.com/joho/godotenv
 # github.com/klauspost/compress v1.11.12
 ## explicit
 # github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e

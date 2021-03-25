@@ -10,7 +10,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang/snappy v0.0.3 // indirect
 	github.com/gorilla/mux v1.8.0
-	github.com/joho/godotenv v1.3.0
+	github.com/joho/godotenv v1.3.0 // indirect
 	github.com/klauspost/compress v1.11.12 // indirect
 	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	github.com/youmark/pkcs8 v0.0.0-20201027041543-1326539a0a0a // indirect
