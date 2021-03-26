@@ -61,7 +61,8 @@ send a message to some number. <br>
  
  ##### Deploying to heroku
  
- `heroku container:push -a {name-of-your-project} web`
+ `heroku container:push -a {name-of-your-project} web` <br>
+ 
  `heroku container:release -a {name-of-your-project} web`
  
  ##### Testing
