@@ -1,32 +1,49 @@
-# whatsapp-cli
+# whatsapp-api
 
-Connect and send messages as a whatsapp client directly from command line.
+Connect and send messages as a whatsapp client sending REST requests, **this is only for experimental use**.
 
-## How to works
+## How to use locally
 
-##### Install
+**Requirements:**
 
-`npm i -g whats-cli`
+- Have the go installed on your machine.
 
-##### Get the QRCode on command line
+##### Download the repository
 
-`whats-cli connect-qr`
+`git clone https://github.com/jsdaniell/whats-api.git`
 
-##### Get the string of QRCode on command line
+##### Get dependencies
 
-`whats-cli connect`
+`go mod download || go mod vendor`
 
-##### Send message
+##### Running
 
-`whats-cli send "number" "message"`
+`go run main.go`
 
-Number have to be without +55 prefix (8599999999) DDD + Number, +55 prefix is configured by default.
+##### Testing the requests
 
-#### Dealing with bad restored sessions:
+GET: https://localhost:9000/getQrCode <br>
+returns the QRCode PNG on the response. <br>
 
-Sometimes if you want to reset the stored session you can erase the `whatsappSession.gob` file.
+`curl --location --request GET 'http://localhost:9000/getQrCode' \
+ --header 'Authorization: anyIDString'`
 
-`rm -rf $TMPDIR/whatsappSession.gob`
+GET: https://localhost:9000/disconnect <br>
+disconnect the actually logged session on the server. <br>
+
+`curl --location --request GET 'http://localhost:9000/disconnect' \
+ --header 'Authorization: anyIDString'`
+
+POST: https://localhost:9000/sendMessage <br>
+send a message to some number. <br>
+
+`curl --location --request POST 'http://localhost:9000/sendMessage' \
+ --header 'Authorization: anyIDString' \
+ --header 'Content-Type: application/json' \
+ --data-raw '{
+ 	"number": "558599999999",
+ 	"message": "message"
+ }'`
 
 
 
