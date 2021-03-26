@@ -2,6 +2,12 @@
 
 Connect and send messages as a whatsapp client sending REST requests, **this is only for experimental use**.
 
+## Summary
+
+> [1. How to use locally](#how-to-use-locally) <br>
+> [2. How to use on Heroku Instance](#how-to-use-on-heroku-instance) <br>
+> [3. Testing request end-points](#testing-the-requests-end-points) <br>
+
 ## How to use locally
 
 **Requirements:**
@@ -19,31 +25,6 @@ Connect and send messages as a whatsapp client sending REST requests, **this is 
 ##### Running
 
 `go run main.go`
-
-##### Testing the requests
-
-GET: https://localhost:9000/getQrCode <br>
-returns the QRCode PNG on the response. <br>
-
-`curl --location --request GET 'http://localhost:9000/getQrCode' \
- --header 'Authorization: anyIDString'`
-
-GET: https://localhost:9000/disconnect <br>
-disconnect the actually logged session on the server. <br>
-
-`curl --location --request GET 'http://localhost:9000/disconnect' \
- --header 'Authorization: anyIDString'`
-
-POST: https://localhost:9000/sendMessage <br>
-send a message to some number. <br>
-
-`curl --location --request POST 'http://localhost:9000/sendMessage' \
- --header 'Authorization: anyIDString' \
- --header 'Content-Type: application/json' \
- --data-raw '{
- 	"number": "558599999999",
- 	"message": "message"
- }'`
  
  ## How to use on Heroku Instance
  
@@ -72,6 +53,31 @@ send a message to some number. <br>
  *The response must be: Server Running...*
  
  See logs with `heroku logs --tail` on the root folder of project.
+ 
+ ## Testing the requests end-points
+ 
+ GET: https://localhost:9000/getQrCode <br>
+ returns the QRCode PNG on the response. <br>
+ 
+ `curl --location --request GET 'http://localhost:9000/getQrCode' \
+  --header 'Authorization: anyIDString'`
+ 
+ GET: https://localhost:9000/disconnect <br>
+ disconnect the actually logged session on the server. <br>
+ 
+ `curl --location --request GET 'http://localhost:9000/disconnect' \
+  --header 'Authorization: anyIDString'`
+ 
+ POST: https://localhost:9000/sendMessage <br>
+ send a message to some number. <br>
+ 
+ `curl --location --request POST 'http://localhost:9000/sendMessage' \
+  --header 'Authorization: anyIDString' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+  	"number": "558599999999",
+  	"message": "message"
+  }'`
 
 
 
