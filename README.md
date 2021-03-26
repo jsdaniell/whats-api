@@ -7,6 +7,7 @@ Connect and send messages as a whatsapp client sending REST requests, **this is 
 > [1. How to use locally](#how-to-use-locally) <br>
 > [2. How to use on Heroku Instance](#how-to-use-on-heroku-instance) <br>
 > [3. Testing request end-points](#testing-the-requests-end-points) <br>
+> [4. Contribute](#your-contribution-is-important) <br>
 
 ## How to use locally
 
@@ -78,6 +79,10 @@ Connect and send messages as a whatsapp client sending REST requests, **this is 
   	"number": "558599999999",
   	"message": "message"
   }'`
+  
+### Your contribution is important!
+
+Feel free to contribute and create suggestions about this tool, you can submit a PR anytime you want!
 
 
 
