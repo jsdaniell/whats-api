@@ -7,13 +7,13 @@ import (
 
 var authenticationRoutes = []Route{
 	{
-		URI:     "/getQrCode/{sessionID}",
+		URI:     "/getQrCode",
 		Method:  http.MethodGet,
 		Handler: controllers.Connect,
 		Open:    true,
 	},
 	{
-		URI:     "/disconnect/{sessionID}",
+		URI:     "/disconnect",
 		Method:  http.MethodGet,
 		Handler: controllers.Disconnect,
 		Open:    true,

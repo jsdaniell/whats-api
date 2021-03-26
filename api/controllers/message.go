@@ -3,8 +3,7 @@ package controllers
 import (
 	"bufio"
 	"encoding/json"
-	"fmt"
-	"github.com/gorilla/mux"
+	"errors"
 	"github.com/jsdaniell/whats_api/api/models"
 	"github.com/jsdaniell/whats_api/api/responses"
 	"io/ioutil"
@@ -13,7 +12,10 @@ import (
 )
 
 func Message(w http.ResponseWriter, r *http.Request) {
-	sessionID := mux.Vars(r)["sessionID"]
+	auth := r.Header.Get("Authorization")
+	if len(auth) == 0{
+		responses.ERROR(w, http.StatusBadRequest, errors.New("missing 'Authorization' on header"))
+	}
 
 	var messageBody models.MessageModel
 
@@ -29,18 +31,26 @@ func Message(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	cmd := exec.Command( "./whats-cli", "send", messageBody.Number, messageBody.Message, sessionID)
+	cmd := exec.Command( "./whats-cli", "send", messageBody.Number, messageBody.Message, auth)
 
 	stdout, _ := cmd.StdoutPipe()
-	cmd.Start()
+	err = cmd.Start()
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+	}
+
 	scanner := bufio.NewScanner(stdout)
 	for scanner.Scan() {
 		m := scanner.Text()
 
-		fmt.Println(m)
-
-		w.Write([]byte(m))
+		_, err = w.Write([]byte(m))
+		if err != nil {
+			responses.ERROR(w, http.StatusInternalServerError, err)
+		}
 		return
 	}
-	cmd.Wait()
+	err = cmd.Wait()
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+	}
 }

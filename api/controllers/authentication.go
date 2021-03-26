@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"bufio"
-	"github.com/gorilla/mux"
+	"errors"
 	"github.com/jsdaniell/whats_api/api/responses"
 	"github.com/jsdaniell/whats_api/api/utils/shell_commands"
 	"github.com/skip2/go-qrcode"
@@ -11,11 +11,14 @@ import (
 )
 
 func Connect(w http.ResponseWriter, r *http.Request) {
-
-	sessionID := mux.Vars(r)["sessionID"]
+	auth := r.Header.Get("Authorization")
+	if len(auth) == 0{
+		responses.ERROR(w, http.StatusBadRequest, errors.New("missing 'Authorization' on header"))
+		return
+	}
 
 	// create new WhatsApp connection
-	cmd := exec.Command("./whats-cli", "connect", sessionID)
+	cmd := exec.Command("./whats-cli", "connect", auth)
 
 	stdout, _ := cmd.StdoutPipe()
 	err := cmd.Start()
@@ -32,30 +35,38 @@ func Connect(w http.ResponseWriter, r *http.Request) {
 			responses.ERROR(w, http.StatusBadRequest, err)
 		}
 
-		w.Write(png)
+		_, err = w.Write(png)
+		if err != nil {
+			responses.ERROR(w, http.StatusBadRequest, err)
+		}
+
 		return
 	}
-	cmd.Wait()
+	err = cmd.Wait()
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+	}
 }
 
 func Disconnect(w http.ResponseWriter, r *http.Request) {
+	auth := r.Header.Get("Authorization")
+	if len(auth) == 0{
+		responses.ERROR(w, http.StatusBadRequest, errors.New("missing 'Authorization' on header"))
+	}
 
-	sessionID := mux.Vars(r)["sessionID"]
-
-	// create new WhatsApp connection
 	err := shell_commands.ExecuteShellCommand("./whats-cli", "version")
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
 	}
 
 
-	err = shell_commands.ExecuteShellCommand("./whats-cli", "disconnect", sessionID)
+	err = shell_commands.ExecuteShellCommand("./whats-cli", "disconnect", auth)
 	if err != nil {
 		responses.ERROR(w, http.StatusInternalServerError, err)
-		return
 	}
 
-	w.Write([]byte("disconnected"))
-	return
+	_, err = w.Write([]byte("disconnected"))
+	if err != nil {
+		responses.ERROR(w, http.StatusInternalServerError, err)
+	}
 }

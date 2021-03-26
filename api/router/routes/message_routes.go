@@ -7,7 +7,7 @@ import (
 
 var messageRoutes = []Route{
 	{
-		URI:     "/sendMessage/{sessionID}",
+		URI:     "/sendMessage",
 		Method:  http.MethodPost,
 		Handler: controllers.Message,
 		Open:    true,
