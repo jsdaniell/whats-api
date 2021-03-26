@@ -44,6 +44,33 @@ send a message to some number. <br>
  	"number": "558599999999",
  	"message": "message"
  }'`
+ 
+ ## How to use on Heroku Instance
+ 
+ **Requirements:**
+ 
+ - Have the [heroku cli](https://devcenter.heroku.com/articles/heroku-cli) installed on your machine and logged account.
+ 
+ ##### Download the repository
+ 
+ `git clone https://github.com/jsdaniell/whats-api.git`
+ 
+ ##### Create your project on your heroku account
+ 
+ `heroku create {name-of-your-project}`
+ 
+ ##### Deploying to heroku
+ 
+ `heroku container:push -a {name-of-your-project} web`
+ `heroku container:release -a {name-of-your-project} web`
+ 
+ ##### Testing
+ 
+ `curl https://{name-of-your-project}.herokuapp.com/`
+ 
+ *The response must be: Server Running...*
+ 
+ See logs with `heroku logs --tail` on the root folder of project.
 
 
 
